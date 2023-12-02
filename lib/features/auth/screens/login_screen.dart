@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:reddit/core/common/loading.dart';
 import 'package:reddit/core/common/signIn_button.dart';
 import 'package:reddit/core/constants/constants.dart';
+import 'package:reddit/features/auth/controller/authController.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
 
-class _LoginScreenState extends State<LoginScreen> {
-  @override
-  Widget build(BuildContext context) {
+    final isLoading=ref.watch(authControllerProvider);
+
     return Scaffold(
       appBar: AppBar(
         title: Image.asset(Constants.logoPath,height: 40,),
@@ -28,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
           )
         ],
       ),
-      body: Column(
+      body: isLoading ? const Loader() : Column(
         children: [
           const SizedBox(height: 30,),
           const Text(
